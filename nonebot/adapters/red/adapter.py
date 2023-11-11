@@ -22,6 +22,7 @@ from .event import (
     MemberMuteEvent,
     GroupMessageEvent,
     PrivateMessageEvent,
+    ChannelMessageEvent,
     GroupNameUpdateEvent,
 )
 
@@ -214,6 +215,8 @@ class Adapter(BaseAdapter):
                         _handle_event(_data, PrivateMessageEvent)
                     elif _data.chatType == 2:
                         _handle_event(_data, GroupMessageEvent)
+                    elif _data.chatType == 4:
+                        _handle_event(_data, ChannelMessageEvent)
                     else:
                         log("WARNING", f"received unsupported event: {message}")
                         return

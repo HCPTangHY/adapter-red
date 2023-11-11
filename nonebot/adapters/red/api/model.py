@@ -8,6 +8,7 @@ from pydantic import BaseModel
 class ChatType(IntEnum):
     FRIEND = 1
     GROUP = 2
+    CHANNEL = 4
 
 
 class RoleInfo(BaseModel):

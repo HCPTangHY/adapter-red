@@ -170,6 +170,38 @@ class GroupMessageEvent(MessageEvent):
         return self.peerUin or self.peerUid
 
 
+class ChannelMessageEvent(MessageEvent):
+    @override
+    def get_event_name(self) -> str:
+        return "message.channel"
+
+    @override
+    def get_event_description(self) -> str:
+        text = (
+            f"Message from {self.sendMemberName or self.senderUin or self.senderUid} "
+            f"in {self.channelName or self.peerUid} of {self.guildName or self.guildId}: "
+            f"{self.get_message()}"
+        )
+        return escape_tag(text)
+    
+    @override
+    def get_user_id(self) -> str:
+        # 获取用户 ID 的方法，根据事件具体实现，如果事件没有用户 ID，则抛出异常
+        if self.senderUid is None:
+            raise ValueError("user_id doesn't exist.")
+        return self.senderUid
+
+    @property
+    def guild_id(self) -> str:
+        """频道的id"""
+        return self.guildId
+    
+    @property
+    def channel_id(self) -> str:
+        """子频道的id"""
+        return self.peerUid
+    
+
 class NoticeEvent(Event):
     msgId: str
     msgRandom: str
